@@ -2,16 +2,18 @@ CREATE DATABASE netflix;
 
 USE netflix;
 
+CREATE TABLE categ (
+    id INT PRIMARY KEY,
+    nom VARCHAR(30) NOT NULL
+);
+
 CREATE TABLE film (
     id INT PRIMARY KEY,
     titre VARCHAR(255) NOT NULL,
     sortie DATE NOT NULL,
     categ_id INT
-);
+    FOREIGN KEY (categ_id) REFERENCES categ(id)
 
-CREATE TABLE categ (
-    id INT PRIMARY KEY,
-    nom VARCHAR(30) NOT NULL
 );
 
 INSERT INTO categ (id, nom) VALUES
