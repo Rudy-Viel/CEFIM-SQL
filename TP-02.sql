@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS inv_personne (
     id INT PRIMARY KEY,
     prenom VARCHAR(255) NOT NULL,
     nom VARCHAR(255) NOT NULL,
-    age INT NOT NULL,
+    age TINYINT NOT NULL,
     inscription DATE NOT NULL,
     etat BOOLEAN NOT NULL,
     statut ENUM('membre', 'non membre') NOT NULL,
