@@ -220,27 +220,27 @@ JOIN grilleTarifs gt ON a.codeGam = gt.codeGam AND a.codeCate = gt.codeCate
 JOIN tarifs t ON gt.codeTarif = t.codeTarif
 WHERE f.noFic = 1002
 GROUP BY f.noFic, c.nom, c.prenom, l.refArt, a.designation, l.depart, l.retour, t.prixJour
-LIMIT 0, 25; --
+LIMIT 0, 25;
 
-SELECT c.libelle AS libelle, gt.codeCate, t.libelle AS 'libelle tarif', t.prixJour
+SELECT c.libelle AS libelle, g.libelle, t.libelle, t.prixJour
 FROM grilleTarifs gt
 JOIN tarifs t ON gt.codeTarif = t.codeTarif
-JOIN categories c ON gt.codeCate = c.codeCate; --
+JOIN gammes g ON gt.codeGam = g.codeGam
+JOIN categories c ON gt.codeCate = c.codeCate;
 
 SELECT a.refArt, a.designation, COUNT(l.refArt) AS nbLocation
 FROM lignesFic l
 JOIN articles a ON l.refArt = a.refArt
 JOIN categories c ON a.codeCate = c.codeCate
 WHERE c.libelle = 'Surf'
-GROUP BY a.refArt; --
+GROUP BY a.refArt;
 
-SELECT c.libelle AS catégorie, COUNT(DISTINCT f.noFic) AS nombre_de_location
-FROM fiches f
-JOIN lignesFic l ON f.noFic = l.noFic
-JOIN articles a ON l.refArt = a.refArt
-JOIN categories c ON a.codeCate = c.codeCate
-WHERE c.libelle IN ('Ski alpin', 'Surf', 'Patinette')
-GROUP BY c.libelle; --
+SELECT 
+    CAST(COUNT(lf.noLig) AS FLOAT) / COUNT(DISTINCT f.noFic) AS moyenne_lignes_par_fiche
+FROM 
+    lignesFic lf
+JOIN 
+    fiches f ON lf.noFic = f.noFic;
 
 SELECT AVG(montant_fiche) AS montant_moyen_fiche
 FROM (
@@ -251,6 +251,6 @@ FROM (
     JOIN grilleTarifs gt ON a.codeGam = gt.codeGam AND a.codeCate = gt.codeCate
     JOIN tarifs t ON gt.codeTarif = t.codeTarif
     GROUP BY f.noFic
-) AS subquery; --
+) AS subquery;
 
 
