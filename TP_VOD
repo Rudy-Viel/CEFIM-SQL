@@ -1,0 +1,80 @@
+// CODE POUR DB DIAGRAM 
+
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar [unique]
+  password varchar
+  created_at datetime
+}
+
+Table films {
+  id int [pk, increment]
+  title varchar
+  release_date date
+  description text
+  is_series boolean 
+  rating float
+  language_id int [ref: > languages.id] 
+  category_id int [ref: > categories.id] 
+  director_id int [ref: > directors.id] 
+  created_at datetime
+}
+
+Table categories {
+  id int [pk, increment] 
+  name varchar [unique]
+}
+
+Table languages {
+  id int [pk, increment]
+  name varchar [unique]
+}
+
+Table directors {
+  id int [pk, increment] 
+  name varchar
+}
+
+Table actors {
+  id int [pk, increment]
+  name varchar
+}
+
+Table film_actors {
+  film_id int [ref: > films.id]
+  actor_id int [ref: > actors.id]
+}
+
+Table rentals {
+  id int [pk, increment] 
+  user_id int [ref: > users.id] 
+  film_id int [ref: > films.id] 
+  rental_date datetime
+  return_date datetime
+}
+
+Table seasons {
+  id int [pk, increment] 
+  series_id int [ref: > films.id] 
+  season_number int
+  description text
+}
+
+Table episodes {
+  id int [pk, increment]
+  season_id int [ref: > seasons.id] 
+  episode_number int
+  title varchar
+  description text
+  duration int 
+}
+
+Table reviews {
+  id int [pk, increment] // Identifiant unique pour une critique
+  user_id int [ref: > users.id] // Référence à l'utilisateur
+  film_id int [ref: > films.id] // Référence au film ou à la série
+  rating int // Note donnée par l'utilisateur
+  comment text
+  created_at datetime
+}
